@@ -68,6 +68,9 @@ def main():
         #4 Evaluate Model
         train_results = evaluate_model(model, X_train, y_train)
         test_results = evaluate_model(model, X_test, y_test)
+
+        MODELS_DIR.mkdir(parents=True, exist_ok=True)
+        RESULTS_DIR.mkdir(parents=True, exist_ok=True)  
     
         #5 Create model artifact
         model_path = MODELS_DIR / model_filename

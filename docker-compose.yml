@@ -1,0 +1,16 @@
+services:
+  ml-training:
+    build:
+      context: .
+      dockerfile: Dockerfile
+
+    image: california-housing-ml
+
+    container_name: california-housing-training
+
+    volumes:
+      - ./models:/app/models
+      - ./results:/app/results
+      - ./mlruns:/app/mlruns
+
+    command: python -m scripts.train
