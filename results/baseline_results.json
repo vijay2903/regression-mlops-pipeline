@@ -1,0 +1,10 @@
+{
+    "Version": "Baseline",
+    "model": "LinearRegression",
+    "train_mae": 0.5286283596581927,
+    "test_mae": 0.533200130495656,
+    "train_rmse": 0.7196757085831575,
+    "test_rmse": 0.745581383012776,
+    "train_r2": 0.6125511913966952,
+    "test_r2": 0.5757877060324512
+}

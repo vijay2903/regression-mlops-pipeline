@@ -1,0 +1,12 @@
+# Virtual environment
+myenv/
+
+# Raw data
+data/raw/*
+
+# Python cache
+__pycache__/
+*.py[cod]
+
+# Jupyter checkpoints
+.ipynb_checkpoints/
