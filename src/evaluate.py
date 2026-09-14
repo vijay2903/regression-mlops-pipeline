@@ -1,8 +1,8 @@
-import numpy as numpy
+import numpy as np
 
 from sklearn.metrics import mean_absolute_error, mean_squared_error, r2_score
 
-def evaluate(model, X, y):
+def evaluate_model(model, X, y):
     """
     Evaluate a trained model and return regression metrics.
     """

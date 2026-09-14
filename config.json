@@ -1,0 +1,18 @@
+{
+    "data": {
+        "target_column": "MedHouseVal",
+        "test_size": 0.2,
+        "random_state": 42
+    },
+
+    "model": {
+        "name": "LinearRegression",
+        "filename": "baseline_linear_regression.joblib"
+    },
+    
+    "paths": {
+        "results_filename": "baseline_results.json",
+        "prediction_input_filename": "prediction_input.csv",
+        "prediction_output_filename": "predictions.csv"
+    }
+}
