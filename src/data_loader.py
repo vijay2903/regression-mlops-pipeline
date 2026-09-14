@@ -31,7 +31,7 @@ def load_data(raw_data_path = RAW_DATA_PATH, raw_data_dir = RAW_DATA_DIR):
 
     return df
 
-def split_data(df, test_size = 0.2, random_state=42):
+def split_data(df, target_column, test_size = 0.2, random_state=42):
     """
     Separate features and target, then split into train and test sets.
 
@@ -52,15 +52,17 @@ def split_data(df, test_size = 0.2, random_state=42):
         X_train, X_test, y_train, y_test
     """
 
-    X = df.drop(columns=["MedHouseVal"])
-    Y = df["MedHouseVal"]
+    X = df.drop(columns=[target_column])
+    y = df[target_column]
 
     X_train, X_test, y_train, y_test = train_test_split(
         X,
-        Y,
+        y,
         test_size=test_size,
         random_state=random_state
     )
+
     print("Splitting Done")
+
     return X_train, X_test, y_train, y_test
 

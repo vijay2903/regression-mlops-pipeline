@@ -1,12 +1,37 @@
-# Virtual environment
+# Virtual environments
 myenv/
+venv/
+.venv/
+env/
 
-# Raw data
-data/raw/*
-
-# Python cache
+# Python cache files
 __pycache__/
 *.py[cod]
+*$py.class
 
-# Jupyter checkpoints
+# Jupyter files
 .ipynb_checkpoints/
+
+# MLflow
+mlruns/
+mlartifacts/
+
+# Evidently
+.evidently/
+
+# OS/editor files
+.DS_Store
+Thumbs.db
+.vscode/
+
+# Logs
+*.log
+
+# Temporary files
+*.tmp
+*.temp
+
+# Secrets
+.env
+.env.*
+!.env.example

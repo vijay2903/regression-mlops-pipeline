@@ -2,6 +2,7 @@ from pathlib import Path
 import pandas as pd
 import json
 from src.model_io import load_model
+from src.validate import validate_prediction_data
 
 
 PROJECT_ROOT = Path(__file__).resolve().parents[1]
@@ -34,11 +35,21 @@ def main():
         )
 
     #Step 2: load model
-    model = load_model(model_path)
+    model_artifact = load_model(model_path)
 
+    model = model_artifact["model"]
+    
     #Step 3 prediction:
-
+    feature_columns = model_artifact["feature_columns"]
+    target_column = model_artifact["target_column"]
+    
     input_data = pd.read_csv(input_path)
+    
+    validate_prediction_data(
+        input_data,
+        feature_columns,
+        target_column
+    )
 
     predictions = model.predict(input_data)
 

@@ -1,6 +1,7 @@
 import json
 from pathlib import Path
 
+from src.validate import validate_training_data
 from src.data_loader import load_data, split_data
 from src.evaluate import evaluate_model
 from src.model import train_model
@@ -33,16 +34,24 @@ def main():
     model_filename = config["model"]["filename"]
     results_filename = config["paths"]["results_filename"]
 
-    #1. Load data
+    #1. Load data & validate
 
     df = load_data()
+
+    target_column = config["data"]["target_column"]
+
+    feature_columns = validate_training_data(
+        df,
+        target_column
+    )
 
     #2 Split data
     X_train, X_test, y_train, y_test = split_data(
         df,
+        target_column=target_column,
         test_size=test_size,
         random_state=random_state
-        )
+    )
 
     #3 Train Model
     model = train_model(X_train, y_train)
@@ -53,7 +62,13 @@ def main():
 
     #5 Create Output Directories
     model_path = MODELS_DIR / model_filename
-    save_model(model, model_path)
+    model_artifact = {
+        "model": model,
+        "feature_columns": feature_columns,
+        "target_column": target_column
+    }
+
+    save_model(model_artifact, model_path)
 
     #Save results
 

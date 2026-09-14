@@ -1,13 +1,13 @@
 import pandas as pd
 
 def validate_training_data(df, target_column):
-    if target_column not df.columns:
+    if target_column not in df.columns:
         raise ValueError(
             f"Target column '{target_column}' not found in training data."
         )
-    print(f"Target column '{target_column}' not found in training data.")
+    print(f"Target column '{target_column}' found in training data.")
 
-    feature_columns = [col: col in df.colums
+    feature_columns = [col for col in df.columns
                        if col != target_column
                        ]
 
