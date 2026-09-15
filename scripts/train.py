@@ -25,9 +25,18 @@ MLFLOW_TRACKING_URI = (
     f"sqlite:///{MLFLOW_DB_PATH.resolve().as_posix()}"
 )
 
+MLFLOW_ARTIFACTS_DIR = PROJECT_ROOT / "mlartifacts"
+MLFLOW_ARTIFACTS_DIR.mkdir(parents=True, exist_ok=True)
+
+# Convert the local artifact directory into a file:// URI.
+LOCAL_ARTIFACT_URI = MLFLOW_ARTIFACTS_DIR.resolve().as_uri()
+
 def configure_mlflow():
-    # Use the environment variable if explicitly provided.
-    # Otherwise, use the project-local SQLite database.
+    """
+    Configure MLflow tracking and create the experiment
+    if it does not already exist.
+    """
+
     tracking_uri = os.getenv(
         "MLFLOW_TRACKING_URI",
         MLFLOW_TRACKING_URI,
@@ -38,11 +47,14 @@ def configure_mlflow():
         "california-housing-regression-minio",
     )
 
+    # Use the explicitly supplied artifact location if present.
+    # Otherwise, store artifacts locally.
     artifact_location = os.getenv(
         "MLFLOW_ARTIFACT_LOCATION",
-        "s3://mlops-artifacts/mlflow",
+        LOCAL_ARTIFACT_URI,
     )
 
+    # Set tracking URI before creating MlflowClient.
     mlflow.set_tracking_uri(tracking_uri)
 
     client = MlflowClient()
@@ -54,6 +66,7 @@ def configure_mlflow():
             name=experiment_name,
             artifact_location=artifact_location,
         )
+
         print(f"Created MLflow experiment: {experiment_name}")
         print(f"Experiment ID: {experiment_id}")
     else:
