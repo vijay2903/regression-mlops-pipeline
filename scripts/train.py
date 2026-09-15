@@ -17,10 +17,20 @@ RESULTS_DIR = PROJECT_ROOT / "results"
 MODELS_DIR = PROJECT_ROOT / "models"
 CONFIG_PATH = PROJECT_ROOT / "config.json"
 
+MLFLOW_DIR = PROJECT_ROOT / "mlruns"
+MLFLOW_DIR.mkdir(parents=True, exist_ok=True)
+
+MLFLOW_DB_PATH = PROJECT_ROOT / "mlflow.db"
+MLFLOW_TRACKING_URI = (
+    f"sqlite:///{MLFLOW_DB_PATH.resolve().as_posix()}"
+)
+
 def configure_mlflow():
+    # Use the environment variable if explicitly provided.
+    # Otherwise, use the project-local SQLite database.
     tracking_uri = os.getenv(
         "MLFLOW_TRACKING_URI",
-        "sqlite:////app/mlflow.db",
+        MLFLOW_TRACKING_URI,
     )
 
     experiment_name = os.getenv(
