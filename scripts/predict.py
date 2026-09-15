@@ -18,7 +18,13 @@ def load_config():
     with open(CONFIG_PATH, "r") as file:
         return json.load(file)
 
-def main():
+def generate_predictions():
+    """
+    Load the selected model, validate prediction input data,
+    generate predictions, and save the results.
+
+    This function contains the main prediction workflow.
+    """
 
     #step 1: config load
     config = load_config()
@@ -69,6 +75,16 @@ def main():
     print(prediction_data)
 
     print(f"\nPredictions saved to: {output_path}")
+
+    return prediction_data
+
+def main():
+    """
+    Entry point for running the prediction pipeline.
+    """
+
+    generate_predictions()
+
 
 if __name__ == "__main__":
     main()
