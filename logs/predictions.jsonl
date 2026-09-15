@@ -1,0 +1,3 @@
+{"timestamp": "2026-09-15T16:51:12.405846+00:00", "features": {"MedInc": 0.0, "HouseAge": 0.0, "AveRooms": 0.0, "AveBedrms": 0.0, "Population": 0.0, "AveOccup": 0.0, "Latitude": 0.0, "Longitude": 0.0}, "prediction": 1.5518703999999999}
+{"timestamp": "2026-09-15T16:52:13.799354+00:00", "features": {"MedInc": 11.2, "HouseAge": 2.1, "AveRooms": 4.0, "AveBedrms": 5.0, "Population": 10.0, "AveOccup": 4.0, "Latitude": 182.0, "Longitude": 180.0}, "prediction": 2.9764116999999994}
+{"timestamp": "2026-09-15T16:54:53.533375+00:00", "features": {"MedInc": 0.0, "HouseAge": 0.0, "AveRooms": 0.0, "AveBedrms": 0.0, "Population": 0.0, "AveOccup": 0.0, "Latitude": 0.0, "Longitude": 0.0}, "prediction": 1.5518704000000003}

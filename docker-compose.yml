@@ -52,6 +52,7 @@ services:
       - ./models:/app/models
       - ./results:/app/results
       - ./data:/app/data
+      - ./logs:/app/logs
     command: uvicorn src.api:app --host 0.0.0.0 --port 8000
 
 volumes:

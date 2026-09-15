@@ -15,13 +15,13 @@ The model generates a prediction
         ↓
 FastAPI returns the prediction as JSON
 """
-
+from datetime import datetime, timezone
 from pathlib import Path
 import json
 
 import pandas as pd
 from fastapi import FastAPI, HTTPException
-from pydantic import BaseModel
+from pydantic import BaseModel, Field
 import joblib
 
 # ---------------------------------------------------------
@@ -47,6 +47,24 @@ PROJECT_ROOT = Path(__file__).resolve().parent.parent
 MODELS_DIR = PROJECT_ROOT / "models"
 RESULTS_DIR = PROJECT_ROOT / "results"
 BEST_MODEL_METADATA_PATH = RESULTS_DIR / "best_model.json"
+
+
+#log paths
+PREDICTION_LOG_PATH = PROJECT_ROOT / "logs" / "predictions.jsonl"
+PREDICTION_LOG_PATH.parent.mkdir(parents=True, exist_ok=True)
+
+#Helper
+
+def log_prediction(features: dict, prediction: float) -> None:
+    log_entry = {
+        "timestamp": datetime.now(timezone.utc).isoformat(),
+        "features": features,
+        "prediction": float(prediction),
+    }
+
+    with PREDICTION_LOG_PATH.open("a", encoding="utf-8") as file:
+        file.write(json.dumps(log_entry) + "\n")
+
 
 # ---------------------------------------------------------
 # 2. Create the FastAPI application
@@ -76,14 +94,14 @@ class HousingInput(BaseModel):
     FastAPI automatically returns a validation error
     """
 
-    MedInc: float
-    HouseAge: float
-    AveRooms: float
-    AveBedrms: float
-    Population: float
-    AveOccup: float
-    Latitude: float
-    Longitude: float
+    MedInc: float = Field(..., ge=0)
+    HouseAge: float = Field(..., ge=0, le=100)
+    AveRooms: float = Field(..., gt=0)
+    AveBedrms: float = Field(..., gt=0)
+    Population: float = Field(..., ge=0)
+    AveOccup: float = Field(..., gt=0)
+    Latitude: float = Field(..., ge=32, le=42)
+    Longitude: float = Field(..., ge=-125, le=-114)
 
 
 # ---------------------------------------------------------
@@ -221,15 +239,18 @@ def predict(input_data: HousingInput):
 
         # Generate prediction
         prediction = model.predict(input_df)
-
+        prediction_value = float(prediction[0])
         # Return a JSON-compatible response.
         #
         # float() converts the NumPy/scikit-learn numeric result
         # into a normal Python float.
-
+        log_prediction(
+            features=input_data.model_dump(),
+            prediction= prediction_value,
+            )
         return {
-            "prediction" : float(prediction[0])
-        }
+            "prediction" : prediction_value
+            }
 
     except Exception as error:
         # If something goes wrong, return an HTTP 500 error.
