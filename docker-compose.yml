@@ -24,9 +24,12 @@ services:
 
     container_name: california-housing-prediction
 
+    ports:
+      - "8000:8000"
+
     volumes:
       - ./models:/app/models
       - ./results:/app/results
       - ./data:/app/data
 
-    command: python -m scripts.predict
+    command: uvicorn src.api:app --host 0.0.0.0 --port 8000
