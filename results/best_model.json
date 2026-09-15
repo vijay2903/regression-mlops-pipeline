@@ -1,0 +1,18 @@
+{
+    "model_name": "RandomForest",
+    "model_filename": "random_forest.joblib",
+    "selection_metric": "rmse",
+    "selection_value": 0.5059859946022769,
+    "metrics": {
+        "train": {
+            "mae": 0.12209520304626979,
+            "rmse": 0.18816160555647335,
+            "r2": 0.9735148362732539
+        },
+        "test": {
+            "mae": 0.3277310800872094,
+            "rmse": 0.5059859946022769,
+            "r2": 0.8046244867176197
+        }
+    }
+}

@@ -5,10 +5,18 @@
         "random_state": 42
     },
 
-    "model": {
-        "name": "LinearRegression",
-        "filename": "baseline_linear_regression.joblib"
-    },
+    "models": [
+        {
+            "name": "LinearRegression",
+            "type": "linear_regression",
+            "filename": "baseline_linear_regression.joblib"
+        },
+        {
+            "name": "RandomForest",
+            "type": "random_forest",
+            "filename": "random_forest.joblib"
+        }
+        ],
     
     "paths": {
         "results_filename": "baseline_results.json",

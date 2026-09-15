@@ -26,6 +26,7 @@ def test_save_and_load_model(tmp_path):
 
     # Train a model using the actual train_model() function.
     model = train_model(
+        "random_forest",
         X_train,
         y_train
     )

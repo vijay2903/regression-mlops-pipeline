@@ -11,6 +11,8 @@ CONFIG_PATH = PROJECT_ROOT / "config.json"
 INPUT_DIR = PROJECT_ROOT / "data" / "input"
 OUTPUT_DIR = PROJECT_ROOT / "results"
 MODELS_DIR = PROJECT_ROOT / "models"
+RESULTS_DIR = PROJECT_ROOT / "results"
+BEST_MODEL_PATH = RESULTS_DIR / "best_model.json"
 
 def load_config():
     with open(CONFIG_PATH, "r") as file:
@@ -21,7 +23,11 @@ def main():
     #step 1: config load
     config = load_config()
 
-    model_filename = config["model"]["filename"]
+    with open(BEST_MODEL_PATH, "r") as f:
+        best_model_metadata = json.load(f)
+
+    model_filename = best_model_metadata["model_filename"]
+    model_path = MODELS_DIR / model_filename
     input_filename = config["paths"]["prediction_input_filename"]
     output_filename = config["paths"]["prediction_output_filename"]
 

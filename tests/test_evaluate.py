@@ -17,7 +17,7 @@ def test_evaluate_model_returns_expected_metrics():
 
     y_train = pd.Series([3, 5, 7, 9, 11])
 
-    model = train_model(X_train, y_train)
+    model = train_model("linear_regression", X_train, y_train)
 
     # Use the same relationship for evaluation.
     X_test = pd.DataFrame({
@@ -56,7 +56,7 @@ def test_evaluate_model_with_prediction_error():
 
     y_train = pd.Series([3, 5, 7, 9, 11])
 
-    model = train_model(X_train, y_train)
+    model = train_model("random_forest", X_train, y_train)
 
     X_test = pd.DataFrame({
         "feature": [6, 7, 8],

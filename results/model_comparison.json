@@ -1,0 +1,30 @@
+[
+    {
+        "model": "LinearRegression",
+        "model_filename": "baseline_linear_regression.joblib",
+        "train": {
+            "mae": 0.5286283596581927,
+            "rmse": 0.7196757085831575,
+            "r2": 0.6125511913966952
+        },
+        "test": {
+            "mae": 0.533200130495656,
+            "rmse": 0.745581383012776,
+            "r2": 0.5757877060324512
+        }
+    },
+    {
+        "model": "RandomForest",
+        "model_filename": "random_forest.joblib",
+        "train": {
+            "mae": 0.12209520304626979,
+            "rmse": 0.18816160555647335,
+            "r2": 0.9735148362732539
+        },
+        "test": {
+            "mae": 0.3277310800872094,
+            "rmse": 0.5059859946022769,
+            "r2": 0.8046244867176197
+        }
+    }
+]
