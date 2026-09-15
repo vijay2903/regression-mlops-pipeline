@@ -27,7 +27,7 @@ def load_config():
     return config
 
 
-def main():
+def train_pipeline():
     #Step 0 load config
     config = load_config()
 
@@ -176,6 +176,9 @@ def main():
         json.dump(best_model_metadata, f, indent=4)
 
     print(f"Best model metadata saved to: {BEST_MODEL_PATH}")
+
+def main():
+    train_pipeline()
     
 
 if __name__ == "__main__":
