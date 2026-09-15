@@ -1,8 +1,10 @@
 import json
+import os
 from pathlib import Path
 
 import mlflow
 import mlflow.sklearn
+from mlflow.tracking import MlflowClient
 
 from src.validate import validate_training_data
 from src.data_loader import load_data, split_data
@@ -14,6 +16,43 @@ PROJECT_ROOT = Path(__file__).resolve().parents[1]
 RESULTS_DIR = PROJECT_ROOT / "results"
 MODELS_DIR = PROJECT_ROOT / "models"
 CONFIG_PATH = PROJECT_ROOT / "config.json"
+
+def configure_mlflow():
+    tracking_uri = os.getenv(
+        "MLFLOW_TRACKING_URI",
+        "sqlite:////app/mlflow.db",
+    )
+
+    experiment_name = os.getenv(
+        "MLFLOW_EXPERIMENT_NAME",
+        "california-housing-regression-minio",
+    )
+
+    artifact_location = os.getenv(
+        "MLFLOW_ARTIFACT_LOCATION",
+        "s3://mlops-artifacts/mlflow",
+    )
+
+    mlflow.set_tracking_uri(tracking_uri)
+
+    client = MlflowClient()
+
+    experiment = client.get_experiment_by_name(experiment_name)
+
+    if experiment is None:
+        experiment_id = client.create_experiment(
+            name=experiment_name,
+            artifact_location=artifact_location,
+        )
+        print(f"Created MLflow experiment: {experiment_name}")
+        print(f"Experiment ID: {experiment_id}")
+    else:
+        print(f"Using existing MLflow experiment: {experiment_name}")
+
+    mlflow.set_experiment(experiment_name)
+
+    print(f"MLflow tracking URI: {mlflow.get_tracking_uri()}")
+    print(f"MLflow artifact URI: {artifact_location}")
 
 
 def load_config():
@@ -58,7 +97,7 @@ def train_pipeline():
     comparison_results = []
 
     # Configure MLflow Experiment
-    mlflow.set_experiment("california-housing-regression")
+    configure_mlflow()
 
     #Start an MLflow run:
 
@@ -174,6 +213,40 @@ def train_pipeline():
 
     with open(BEST_MODEL_PATH, "w") as f:
         json.dump(best_model_metadata, f, indent=4)
+
+    # Create a separate MLflow run for final comparison and model selection
+    with mlflow.start_run(run_name="model-selection-summary"):
+
+        mlflow.log_param(
+            "selection_metric",
+            "test_rmse"
+        )
+
+        mlflow.log_param(
+            "selected_model",
+            best_model["model"]
+        )
+
+        mlflow.log_metric(
+            "best_test_rmse",
+            best_model["test"]["rmse"]
+        )
+
+        # Log summary artifacts using absolute paths
+        mlflow.log_artifact(
+            str(comparison_path),
+            artifact_path="results"
+        )
+
+        mlflow.log_artifact(
+            str(BEST_MODEL_PATH),
+            artifact_path="results"
+        )
+
+        print(
+            "Logged comparison and best-model metadata "
+            "to MLflow."
+        )
 
     print(f"Best model metadata saved to: {BEST_MODEL_PATH}")
 

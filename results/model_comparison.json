@@ -17,7 +17,7 @@
         "model": "RandomForest",
         "model_filename": "random_forest.joblib",
         "train": {
-            "mae": 0.12209520304626978,
+            "mae": 0.12209520304626979,
             "rmse": 0.18816160555647335,
             "r2": 0.9735148362732539
         },
