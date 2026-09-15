@@ -38,3 +38,8 @@ Thumbs.db
 
 #mlflow db
 mlflow.db
+
+# Trained model artifacts
+models/*.joblib
+models/*.pkl
+models/*.pickle
