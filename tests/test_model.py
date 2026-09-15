@@ -80,3 +80,4 @@ def test_train_model_can_predict():
     assert len(predictions) == 2
     assert predictions[0] == 13
     assert predictions[1] == 15
+
